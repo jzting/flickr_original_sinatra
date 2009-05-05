@@ -1,3 +1,3 @@
-require "flickr_original"
+require "flickr_sinatra"
 
 run Sinatra::Application
