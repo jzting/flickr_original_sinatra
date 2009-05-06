@@ -6,7 +6,7 @@ require 'flickr'
 @@flickr = Flickr.new("flickr.cache", "f2949bc8f2e7d566279784478033e72a", "74b4e685176f27be")
 
 not_found do
-  erb :inde
+  erb :index
 end
 
 get "/" do
@@ -14,7 +14,6 @@ get "/" do
 end 
 
 get "/view/:id" do |id|
-  p "ID: " + id
   begin
     photos = @@flickr.photos.getSizes(params[:id])    
     if photos.sizes[:Original]
@@ -22,7 +21,7 @@ get "/view/:id" do |id|
       redirect original
     elsif photos.sizes[:Large] 
       photos.sizes[:Large] 
-      large = photos.sizes[:Large].source.gsub(/_l/, '_l_d')    
+      large = photos.sizes[:Large].source
       redirect large        
     else
       erb :error
@@ -33,7 +32,6 @@ get "/view/:id" do |id|
 end
 
 get "/download/:id" do |id|
-  p "ID: " + id
   begin
     photos = @@flickr.photos.getSizes(params[:id])    
     if photos.sizes[:Original]
@@ -41,7 +39,7 @@ get "/download/:id" do |id|
       redirect original
     elsif photos.sizes[:Large] 
       photos.sizes[:Large] 
-      large = photos.sizes[:Large].source.gsub(/_l/, '_l_d')    
+      large = photos.sizes[:Large].source.gsub(/_b/, '_b_d')    
       redirect large        
     else
       erb :error
