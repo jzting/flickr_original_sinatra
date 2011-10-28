@@ -11,41 +11,41 @@ end
 
 get "/" do
   erb :index
-end 
+end
 
 get "/view/:id" do |id|
   begin
-    photos = @@flickr.photos.getSizes(params[:id])    
+    photos = @@flickr.photos.getSizes(params[:id])
     if photos.sizes[:Original]
       original = photos.sizes[:Original].source
       redirect original
-    elsif photos.sizes[:Large] 
-      photos.sizes[:Large] 
+    elsif photos.sizes[:Large]
+      photos.sizes[:Large]
       large = photos.sizes[:Large].source
-      redirect large        
+      redirect large
     else
       erb :error
-    end        
+    end
   rescue XMLRPC::FaultException
-    erb :error    
+    erb :error
   end
 end
 
 get "/download/:id" do |id|
   begin
-    photos = @@flickr.photos.getSizes(params[:id])    
+    photos = @@flickr.photos.getSizes(params[:id])
     if photos.sizes[:Original]
       original = photos.sizes[:Original].source.gsub(/_o/, '_o_d')
       redirect original
-    elsif photos.sizes[:Large] 
-      photos.sizes[:Large] 
-      large = photos.sizes[:Large].source.gsub(/_b/, '_b_d')    
-      redirect large        
+    elsif photos.sizes[:Large]
+      photos.sizes[:Large]
+      large = photos.sizes[:Large].source.gsub(/_b/, '_b_d')
+      redirect large
     else
       erb :error
-    end        
+    end
   rescue XMLRPC::FaultException
-    erb :error    
+    erb :error
   end
 end
 
